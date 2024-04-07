@@ -12,4 +12,4 @@ fun isCacheDataExpired(timestamp: Long, cacheTime: CacheTime): Boolean {
     return seconds >= cacheTime.minutes * SECONDS_IN_MINUTE
 }
 
-const val SECONDS_IN_MINUTE = 60
+private const val SECONDS_IN_MINUTE = 60

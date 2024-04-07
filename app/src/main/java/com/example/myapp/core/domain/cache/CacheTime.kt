@@ -12,4 +12,4 @@ sealed class CacheTime(open val minutes: Int) {
     data class Custom(override val minutes: Int) : CacheTime(minutes)
 }
 
-const val DAY_IN_MINUTES = 60 * 24
+private const val DAY_IN_MINUTES = 60 * 24
