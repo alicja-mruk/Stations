@@ -150,7 +150,7 @@ class StationsViewModel @Inject constructor(
             copy(
                 distanceBetweenStations = distanceBetweenTwoPoints.toString(),
             )
-        }gi
+        }
     }
 
     override fun setInitialState(): StationsContract.State = StationsContract.State(
