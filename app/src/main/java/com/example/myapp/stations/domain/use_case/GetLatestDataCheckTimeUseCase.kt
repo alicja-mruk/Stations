@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetLatestDataCheckTimeUseCase @Inject constructor(private val repository: StationsRepository) {
-    suspend operator fun invoke(): Flow<DataCheckTmeEntity> = repository.getLatestDataCheckTime()
+    suspend operator fun invoke(): Flow<DataCheckTmeEntity?> = repository.getLatestDataCheckTime()
 }

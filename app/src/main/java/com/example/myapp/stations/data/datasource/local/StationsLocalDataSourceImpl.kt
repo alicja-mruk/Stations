@@ -45,7 +45,7 @@ class StationsLocalDataSourceImpl @Inject constructor(private val stationsDao: S
         return Result.Success(stationsDao.insertLatestDataCheckTime(DataCheckTmeEntity(timestamp = timestamp)))
     }
 
-    override suspend fun getLatestDataCheckTime(): Flow<DataCheckTmeEntity> {
+    override suspend fun getLatestDataCheckTime(): Flow<DataCheckTmeEntity?> {
         return stationsDao.getDataCheckTime()
     }
 }

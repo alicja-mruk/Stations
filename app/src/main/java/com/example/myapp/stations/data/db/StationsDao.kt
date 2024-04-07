@@ -30,5 +30,5 @@ interface StationsDao {
     suspend fun insertLatestDataCheckTime(dataCheckTmeEntity: DataCheckTmeEntity)
 
     @Query("SELECT * FROM data_check_time ORDER BY ID DESC LIMIT 1")
-    fun getDataCheckTime(): Flow<DataCheckTmeEntity>
+    fun getDataCheckTime(): Flow<DataCheckTmeEntity?>
 }

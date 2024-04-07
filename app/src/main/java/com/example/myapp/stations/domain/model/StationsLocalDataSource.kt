@@ -14,5 +14,5 @@ interface StationsLocalDataSource {
     suspend fun insertStations(stations: List<StationEntity>): Result<Unit, DataError.Local>
     suspend fun insertStationKeywords(stationKeywords: List<StationKeywordEntity>): Result<Unit, DataError.Local>
     suspend fun insertLatestDataCheckTime(timestamp: Long): Result<Unit, DataError.Local>
-    suspend fun getLatestDataCheckTime(): Flow<DataCheckTmeEntity>
+    suspend fun getLatestDataCheckTime(): Flow<DataCheckTmeEntity?>
 }

@@ -132,7 +132,7 @@ class StationsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getLatestDataCheckTime(): Flow<DataCheckTmeEntity> {
+    override suspend fun getLatestDataCheckTime(): Flow<DataCheckTmeEntity?> {
         return localDataSource.getLatestDataCheckTime()
     }
 }

@@ -17,6 +17,7 @@ import com.example.myapp.stations.utils.getDistanceBetweenTwoPoints
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -35,13 +36,16 @@ class StationsViewModel @Inject constructor(
 
     private fun getLatestDataCheckTime() {
         viewModelScope.launch(Dispatchers.IO) {
-            getLatestDataCheckTimeUseCase().flowOn(Dispatchers.IO).collect { dataCheckTime->
-                _latestDataCheckTime.update { dataCheckTime.timestamp }
-                val station = _stations.value.firstOrNull()
-                station?.let {
-                    val isCacheDataExpired = isCacheDataExpired(station.createdAt, station.cacheTime)
-                    if (isCacheDataExpired){
-                        fetchData()
+            getLatestDataCheckTimeUseCase().flowOn(Dispatchers.IO).collectLatest {
+                it?.let { dataCheckTime ->
+                    _latestDataCheckTime.update { dataCheckTime.timestamp }
+                    val station = _stations.value.firstOrNull()
+                    station?.let {
+                        val isCacheDataExpired =
+                            isCacheDataExpired(station.createdAt, station.cacheTime)
+                        if (isCacheDataExpired) {
+                            fetchData()
+                        }
                     }
                 }
             }
@@ -147,7 +151,6 @@ class StationsViewModel @Inject constructor(
                 distanceBetweenStations = distanceBetweenTwoPoints.toString(),
             )
         }
-
     }
 
     override fun setInitialState(): StationsContract.State = StationsContract.State(

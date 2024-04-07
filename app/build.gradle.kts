@@ -7,10 +7,6 @@ plugins {
 }
 
 android {
-    packagingOptions {
-        exclude("META-INF/gradle/incremental.annotation.processors")
-    }
-
     namespace = "com.example.myapp"
     compileSdk = 34
 
@@ -41,7 +37,7 @@ android {
         release {
             buildConfigField("String", "BASE_URL", "\"koleo.pl/api/v2/main\"")
 
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -65,6 +61,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/gradle/incremental.annotation.processors"
         }
     }
 }

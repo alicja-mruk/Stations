@@ -9,5 +9,5 @@ interface StationsRepository {
     suspend fun getStations(): Result<List<Station>, DataError>
     suspend fun getStationById(id: Long): Result<Station, DataError>
     suspend fun getStationKeywords(): Result<List<StationKeyword>, DataError>
-    suspend fun getLatestDataCheckTime(): Flow<DataCheckTmeEntity>
+    suspend fun getLatestDataCheckTime(): Flow<DataCheckTmeEntity?>
 }
