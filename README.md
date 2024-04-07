@@ -11,8 +11,9 @@ There are two modules:
 <img width="480" alt="Screenshot 2024-04-07 at 14 47 49" src="https://github.com/alicja-mruk/Stations/assets/45905489/59fc3870-4daf-457c-9188-077147774783">
 
 # Core Features
-- Auto caching of remote data (Room db)
+- Auto caching of remote data (Room db) and refreshing if cache is not up to date
 - Suggestion search
+- Calculating distance between 2 stations
   
 # Demo
 https://github.com/alicja-mruk/Stations/assets/45905489/9a918875-2179-438f-b635-fe0ea9bfe324
