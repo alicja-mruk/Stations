@@ -7,5 +7,5 @@ import com.example.myapp.core.domain.model.Result
 import javax.inject.Inject
 
 class GetStationByIdUseCase @Inject constructor(private val repository: StationsRepository) {
-    suspend operator fun invoke(id: Long): Result<Station, DataError> = repository.getStationById(id)
+    suspend operator fun invoke(id: Long?): Result<Station, DataError> = repository.getStationById(id)
 }

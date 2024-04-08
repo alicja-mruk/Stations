@@ -6,6 +6,6 @@ import com.example.myapp.stations.domain.model.StationsLocalDataSource
 import javax.inject.Inject
 
 class InsertLatestDataCheckTimeUseCase @Inject constructor(private val localDataSource: StationsLocalDataSource) {
-    suspend operator fun invoke(timestamp: Long): Result<Unit, DataError.Local> =
+    suspend operator fun invoke(timestamp: Long): Result<Unit, DataError.Database> =
         localDataSource.insertLatestDataCheckTime(timestamp)
 }

@@ -9,7 +9,11 @@ sealed interface DataError: Error {
     }
 
     enum class Local: DataError {
-        DISK_FULL,
-        EMPTY_DB
+        DISK_FULL
+
+    }
+    enum class Database: DataError {
+        EMPTY_DB,
+        ID_NOT_FOUND
     }
 }

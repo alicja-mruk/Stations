@@ -28,7 +28,7 @@ class StationsRepositoryImpl @Inject constructor(
     private val stationKeywordResponseMapper: Mapper<StationKeywordResponse, StationKeyword>
 ) : StationsRepository {
     override suspend fun getStations(): Result<List<Station>, DataError> {
-        suspend fun getLocalStations(): Result<List<Station>, DataError.Local> {
+        suspend fun getLocalStations(): Result<List<Station>, DataError.Database>{
             return when (val response = localDataSource.getStations()) {
                 is Result.Success -> Result.Success(response.data.map(stationEntityMapper::toModel))
                 is Result.Error -> Result.Error(response.error)
@@ -67,7 +67,7 @@ class StationsRepositoryImpl @Inject constructor(
             }
 
             is Result.Error -> {
-                if (localStationsResponse.error == DataError.Local.EMPTY_DB) {
+                if (localStationsResponse.error == DataError.Database.EMPTY_DB) {
                     return getRemoteStations()
                 }
                 Result.Error(localStationsResponse.error)
@@ -75,15 +75,17 @@ class StationsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getStationById(id: Long): Result<Station, DataError> {
-        return when (val response = localDataSource.getStationById(id)) {
-            is Result.Success -> Result.Success(stationEntityMapper.toModel(response.data))
-            is Result.Error -> Result.Error(response.error)
-        }
+    override suspend fun getStationById(id: Long?): Result<Station, DataError.Database> {
+        return id?.let {
+            return when (val response = localDataSource.getStationById(id)) {
+                is Result.Success -> Result.Success(stationEntityMapper.toModel(response.data))
+                is Result.Error -> Result.Error(response.error)
+            }
+        } ?: Result.Error(DataError.Database.ID_NOT_FOUND)
     }
 
     override suspend fun getStationKeywords(): Result<List<StationKeyword>, DataError> {
-        suspend fun getLocalStationKeywords(): Result<List<StationKeyword>, DataError.Local> {
+        suspend fun getLocalStationKeywords(): Result<List<StationKeyword>, DataError.Database> {
             return when (val response = localDataSource.getStationKeywords()) {
                 is Result.Success -> Result.Success(response.data.map(stationKeywordEntityMapper::toModel))
                 is Result.Error -> Result.Error(response.error)
@@ -124,7 +126,7 @@ class StationsRepositoryImpl @Inject constructor(
             }
 
             is Result.Error -> {
-                if (localStationKeywordsResponse.error == DataError.Local.EMPTY_DB) {
+                if (localStationKeywordsResponse.error == DataError.Database.EMPTY_DB) {
                     return getRemoteStationKeywords()
                 }
                 Result.Error(localStationKeywordsResponse.error)

@@ -7,14 +7,23 @@ data class LatLng(
     val longitude: Double
 )
 
-typealias Km = Number
+val Double.kilometers: Kilometers
+    get() = this.kilometers
+
+@JvmInline
+value class Kilometers(val value: Double) {
+    operator fun plus(other: Kilometers) = this.value + other.value
+    override fun toString(): String {
+        return this.value.toString()
+    }
+}
 
 /**
 Returns distance between two points in Kilometers
  */
 fun getDistanceBetweenTwoPoints(
     startPoint: LatLng, endPoint: LatLng
-): Km {
+): Kilometers {
     val locationStart = Location("").apply {
         latitude = startPoint.latitude
         longitude = startPoint.longitude
@@ -24,9 +33,8 @@ fun getDistanceBetweenTwoPoints(
         longitude = endPoint.longitude
     }
 
-    return (locationStart.distanceTo(locationEnd) / METERS_IN_KM).roundToDecimals()
+    val kilometers = (locationStart.distanceTo(locationEnd) / METERS_IN_KM).roundToDecimals()
+    return Kilometers(value = kilometers)
 }
-
-const val INVALID_VALUE = -1
 
 private const val METERS_IN_KM = 1000

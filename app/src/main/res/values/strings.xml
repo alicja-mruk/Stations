@@ -6,6 +6,7 @@
     <string name="unknown_error">Unknown error</string>
     <string name="error_disk_full">Disc full</string>
     <string name="empty_database">Empty database</string>
+    <string name="id_not_found">Id not found</string>
     <string name="start_station_label">Start station</string>
     <string name="end_station_label">End station</string>
     <string name="start_station_placeholder">Enter start station</string>

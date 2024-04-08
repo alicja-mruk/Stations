@@ -8,11 +8,11 @@ import com.example.myapp.stations.data.db.model.StationKeywordEntity
 import kotlinx.coroutines.flow.Flow
 
 interface StationsLocalDataSource {
-    suspend fun getStations(): Result<List<StationEntity>, DataError.Local>
-    suspend fun getStationById(id: Long): Result<StationEntity, DataError.Local>
-    suspend fun getStationKeywords(): Result<List<StationKeywordEntity>, DataError.Local>
-    suspend fun insertStations(stations: List<StationEntity>): Result<Unit, DataError.Local>
-    suspend fun insertStationKeywords(stationKeywords: List<StationKeywordEntity>): Result<Unit, DataError.Local>
-    suspend fun insertLatestDataCheckTime(timestamp: Long): Result<Unit, DataError.Local>
+    suspend fun getStations(): Result<List<StationEntity>, DataError.Database>
+    suspend fun getStationById(id: Long): Result<StationEntity, DataError.Database>
+    suspend fun getStationKeywords(): Result<List<StationKeywordEntity>, DataError.Database>
+    suspend fun insertStations(stations: List<StationEntity>): Result<Unit, DataError.Database>
+    suspend fun insertStationKeywords(stationKeywords: List<StationKeywordEntity>): Result<Unit, DataError.Database>
+    suspend fun insertLatestDataCheckTime(timestamp: Long): Result<Unit, DataError.Database>
     suspend fun getLatestDataCheckTime(): Flow<DataCheckTmeEntity?>
 }

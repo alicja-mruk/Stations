@@ -15,7 +15,7 @@ interface StationsDao {
     suspend fun getStations(): List<StationEntity>
 
     @Query("SELECT * FROM stations WHERE id=:id ")
-    suspend fun getStationById(id: Long): StationEntity
+    suspend fun getStationById(id: Long): StationEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStations(stations: List<StationEntity>)

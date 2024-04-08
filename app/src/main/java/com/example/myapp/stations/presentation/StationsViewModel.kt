@@ -11,9 +11,10 @@ import com.example.myapp.stations.domain.use_case.GetStationKeywordsUseCase
 import com.example.myapp.stations.domain.use_case.GetStationsUseCase
 import com.example.myapp.stations.presentation.components.AutoCompleteTextInputItem
 import com.example.myapp.stations.presentation.model.StationType
-import com.example.myapp.stations.utils.Km
+import com.example.myapp.stations.utils.Kilometers
 import com.example.myapp.stations.utils.LatLng
 import com.example.myapp.stations.utils.getDistanceBetweenTwoPoints
+import com.example.myapp.stations.utils.kilometers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -114,15 +115,14 @@ class StationsViewModel @Inject constructor(
     }
 
     private suspend fun fetchDistanceBetweenTwoPoints() {
-        if (viewState.value.startStation == null || viewState.value.endStation == null) {
+        if (viewState.value.startStation?.id == null || viewState.value.endStation?.id == null) {
             return
         }
 
-        when (val startStationResult =
-            getStationByIdUseCase(viewState.value.startStation?.id ?: -1)) {
+        when (val startStationResult = getStationByIdUseCase(viewState.value.startStation?.id)) {
             is Result.Success -> {
                 when (val endStationResult =
-                    getStationByIdUseCase(viewState.value.endStation?.id ?: -1)) {
+                    getStationByIdUseCase(viewState.value.endStation?.id)) {
                     is Result.Success -> {
                         val distanceBetweenTwoPoints = getDistanceBetweenTwoPoints(
                             startPoint = LatLng(
@@ -137,20 +137,20 @@ class StationsViewModel @Inject constructor(
                         setDistanceBetweenStations(distanceBetweenTwoPoints)
                     }
 
-                    is Result.Error -> Unit
+                    is Result.Error -> {
+                        setState { copy(error = endStationResult.error) }
+                    }
                 }
             }
 
-            is Result.Error -> Unit
+            is Result.Error -> {
+                setState { copy(error = startStationResult.error) }
+            }
         }
     }
 
-    private fun setDistanceBetweenStations(distanceBetweenTwoPoints: Km) {
-        setState {
-            copy(
-                distanceBetweenStations = distanceBetweenTwoPoints.toString(),
-            )
-        }
+    private fun setDistanceBetweenStations(distanceBetweenTwoPoints: Kilometers) {
+        setState { copy(distanceBetweenStations = distanceBetweenTwoPoints.toString()) }
     }
 
     override fun setInitialState(): StationsContract.State = StationsContract.State(
